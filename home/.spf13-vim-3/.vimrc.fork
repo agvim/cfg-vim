@@ -12,6 +12,8 @@ if has('gui_running')
     set guifont=Andale\ Mono\ Regular\ 10,Menlo\ Regular\ 9,Consolas\ Regular\ 10,Courier\ New\ Regular\ 11
 endif
 
+"use powerline symbols
+let g:airline_powerline_fonts=1
 
 "tagbar scala stuff
 let g:tagbar_type_scala = {
