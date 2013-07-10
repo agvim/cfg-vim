@@ -9,9 +9,22 @@ set colorcolumn=81
 set ts=8
 
 if has('gui_running')
-    set guifont=Andale\ Mono\ Regular\ 10,Menlo\ Regular\ 9,Consolas\ Regular\ 10,Courier\ New\ Regular\ 11
+    set guifont=Inconsolata\ 13
 endif
 
+" Airline stuff
+set ttimeoutlen=50
+set noshowmode
+"use powerline symbols
+let g:airline_powerline_fonts=1
+let g:airline_theme='solarized2'
+""Strange symbols instead of spaces, font thing
+"let g:airline_fugitive_prefix=' '
+"let g:airline_linecolumn_prefix=' '
+"let g:airline_paste_symbol=' PASTE'
+let g:airline_fugitive_prefix='b: '
+let g:airline_linecolumn_prefix=': '
+let g:airline_paste_symbol='[PASTE]'
 
 "tagbar scala stuff
 let g:tagbar_type_scala = {
