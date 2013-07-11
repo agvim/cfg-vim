@@ -12,6 +12,7 @@ if has('gui_running')
     set guifont=Inconsolata\ 13
 endif
 
+<<<<<<< HEAD
 " Airline stuff
 set ttimeoutlen=50
 set noshowmode
@@ -25,6 +26,10 @@ let g:airline_theme='solarized2'
 let g:airline_fugitive_prefix='b: '
 let g:airline_linecolumn_prefix=': '
 let g:airline_paste_symbol='[PASTE]'
+=======
+"use powerline symbols
+let g:airline_powerline_fonts=1
+>>>>>>> b8f3c2cd46d3a889abc02b16711053a38c029ccf
 
 "tagbar scala stuff
 let g:tagbar_type_scala = {
