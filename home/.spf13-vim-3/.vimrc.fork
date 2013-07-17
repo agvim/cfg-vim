@@ -17,11 +17,12 @@ set ttimeoutlen=50
 set noshowmode
 "use powerline symbols
 let g:airline_powerline_fonts=1
-let g:airline_theme='solarized2'
+let g:airline_theme='solarized'
 ""Strange symbols instead of spaces, font thing
 "let g:airline_fugitive_prefix=' '
 "let g:airline_linecolumn_prefix=' '
 "let g:airline_paste_symbol=' PASTE'
+
 let g:airline_fugitive_prefix='b: '
 let g:airline_linecolumn_prefix=': '
 let g:airline_paste_symbol='[PASTE]'
