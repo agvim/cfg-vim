@@ -12,12 +12,24 @@ if has('gui_running')
     set guifont=Inconsolata\ 13
 endif
 
+"autocomplete xml tags for xml documents instead of just html
+au FileType xhtml,xml so ~/.vim/bundle/HTML-AutoCloseTag/ftplugin/html_autoclosetag.vim
+
+"Fix for gitgutter grep alias
+let g:gitgutter_escape_grep = 1
+
+"Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
+let g:airline_enable_hunks = 0
+
 " Airline stuff
-set ttimeoutlen=50
 set noshowmode
-"use powerline symbols
+""use powerline symbols
 let g:airline_powerline_fonts=1
+"use solarized theme
 let g:airline_theme='solarized'
+"XXX TEMPORARY fix for terminal vim
+set background=dark
+
 ""Strange symbols instead of spaces, font thing
 "let g:airline_branch_prefix=' '
 "let g:airline_linecolumn_prefix=' '
@@ -26,6 +38,10 @@ let g:airline_theme='solarized'
 let g:airline_branch_prefix='b: '
 let g:airline_linecolumn_prefix=': '
 let g:airline_paste_symbol='[PASTE]'
+"separators are redefined as > in .vimrc, define them to the powerline ones
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+
 
 "tagbar scala stuff
 let g:tagbar_type_scala = {
