@@ -23,8 +23,8 @@ let g:airline_enable_hunks = 0
 
 " Airline stuff
 set noshowmode
-""use powerline symbols
-let g:airline_powerline_fonts=1
+""use powerline symbols moved to .vimrc.before.fork
+"let g:airline_powerline_fonts=1
 "use solarized theme
 let g:airline_theme='solarized'
 "XXX TEMPORARY fix for terminal vim
@@ -35,12 +35,15 @@ set background=dark
 "let g:airline_linecolumn_prefix=' '
 "let g:airline_paste_symbol=' PASTE'
 
+let g:airline#extensions#tabline#enabled = 1
 let g:airline_branch_prefix='b: '
 let g:airline_linecolumn_prefix=': '
 let g:airline_paste_symbol='[PASTE]'
 "separators are redefined as > in .vimrc, define them to the powerline ones
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+"" with g:airline_powerline_fonts=1 in .vimrc.before.fork it is expected not
+"" to be needed
+"let g:airline_left_sep=''
+"let g:airline_right_sep=''
 
 
 "tagbar scala stuff
