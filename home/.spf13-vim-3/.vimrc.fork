@@ -2,15 +2,33 @@
 set wrap
 set showbreak=↪
 
+"Ignore whitespaces and tab differences when diffing
+set diffopt+=iwhite
+
 "highlight column 81
 set colorcolumn=81
 
 "tabstob should be 8 because it is the default
 set ts=8
 
+" Ruler color fix
+set background=dark
+
 if has('gui_running')
     set guifont=Inconsolata\ 13
+else
+    " Indent Guides colors
+    " NOT PICKED UP AUTOMATICALLY IN CONSOLE MODE
+    let g:indent_guides_auto_colors = 0
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=241
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=244
 endif
+
+"nerdtree fix mapping to a toggle
+nnoremap <silent> <leader>ee :NERDTreeToggle<CR>
+
+"buffergator toggle mapping
+nnoremap <silent> <leader>bb :BuffergatorToggle<CR>
 
 "autocomplete xml tags for xml documents instead of just html
 au FileType xhtml,xml so ~/.vim/bundle/HTML-AutoCloseTag/ftplugin/html_autoclosetag.vim
@@ -23,28 +41,21 @@ let g:airline_enable_hunks = 0
 
 " Airline stuff
 set noshowmode
-""use powerline symbols moved to .vimrc.before.fork
-"let g:airline_powerline_fonts=1
 "use solarized theme
 let g:airline_theme='solarized'
-"XXX TEMPORARY fix for terminal vim
-set background=dark
-
-""Strange symbols instead of spaces, font thing
-"let g:airline_branch_prefix=' '
-"let g:airline_linecolumn_prefix=' '
-"let g:airline_paste_symbol=' PASTE'
-
+" display buffers list
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_branch_prefix='b: '
-let g:airline_linecolumn_prefix=': '
-let g:airline_paste_symbol='[PASTE]'
-"separators are redefined as > in .vimrc, define them to the powerline ones
-"" with g:airline_powerline_fonts=1 in .vimrc.before.fork it is expected not
-"" to be needed
-"let g:airline_left_sep=''
-"let g:airline_right_sep=''
 
+"FIXME Added U+200A HAIR SPACE in order not to print garbage in gvim
+let g:airline_left_sep = ""
+let g:airline_left_alt_sep = "  "
+let g:airline_right_sep = ""
+let g:airline_right_alt_sep = "  "
+let g:airline_paste_symbol = 'PASTE'
+let g:airline_readonly_symbol = '  '
+let g:airline_powerline_fonts = ' ✹ '
+let g:airline_linecolumn_prefix = '  '
+let g:airline_branch_prefix = '  '
 
 "tagbar scala stuff
 let g:tagbar_type_scala = {
