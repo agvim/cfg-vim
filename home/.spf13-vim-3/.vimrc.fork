@@ -15,6 +15,7 @@ set ts=8
 set background=dark
 
 if has('gui_running')
+    " Use Inconsolata font in gvim. In vim is the term font
     set guifont=Inconsolata\ 13
 else
     " Indent Guides colors
@@ -46,18 +47,31 @@ let g:airline_theme='solarized'
 " display buffers list
 let g:airline#extensions#tabline#enabled = 1
 
-"FIXME Added U+200A HAIR SPACE in order not to print garbage in gvim
-let g:airline_left_sep = ""
-let g:airline_left_alt_sep = "  "
-let g:airline_right_sep = ""
-let g:airline_right_alt_sep = "  "
-let g:airline_paste_symbol = 'PASTE'
-let g:airline_readonly_symbol = '  '
-let g:airline_powerline_fonts = ' ✹ '
-let g:airline_linecolumn_prefix = '  '
-let g:airline_branch_prefix = '  '
+""NOT NEEDED ANYMORE Added U+200A HAIR SPACE in order not to print garbage in gvim
+"let g:airline_left_sep = ""
+"let g:airline_left_alt_sep = "  "
+"let g:airline_right_sep = ""
+"let g:airline_right_alt_sep = "  "
+"let g:airline_paste_symbol = 'PASTE'
+"let g:airline_readonly_symbol = '  '
+"let g:airline_powerline_fonts = ' ✹ '
+"let g:airline_linecolumn_prefix = '  '
+"let g:airline_branch_prefix = '  '
 
-"tagbar scala stuff
+""NOT NEEDED ANYMORE linecolumn spaces were still buggy in gvim
+"let g:airline_linecolumn_prefix = ' '
+
+""NOT NEEDED ANYMORE Airline tabline separators should be the powerline ones
+"let g:airline#extensions#tabline#left_sep = ""
+"let g:airline#extensions#tabline#left_alt_sep = ' '
+
+""USE HAIR SPACE TO AVOID GARBAGE SYMBOLS IN GVIM
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
+
+"FIXME: CHECK SCALA PLUGINS, MAYBE NOT NEEDED tagbar scala stuff
 let g:tagbar_type_scala = {
     \ 'ctagstype' : 'Scala',
     \ 'kinds'     : [
