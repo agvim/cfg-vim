@@ -7,3 +7,4 @@
 let g:spf13_bundle_groups = ['general', 'neocomplcache', 'programming', 'python', 'html', 'misc', 'scala']
 
 Bundle 'jeetsukumaran/vim-buffergator'
+Bundle 'sukima/xmledit'

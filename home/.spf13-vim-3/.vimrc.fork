@@ -23,8 +23,6 @@ function MyDiff()
                 \  " > " . v:fname_out
 endfunction
 
-"!diff -w -B -d v:fname_in v:fname_new > v:fname_out"
-
 "highlight column 81
 set colorcolumn=81
 
@@ -51,14 +49,8 @@ nnoremap <silent> <leader>ee :NERDTreeToggle<CR>
 "buffergator toggle mapping
 nnoremap <silent> <leader>bb :BuffergatorToggle<CR>
 
-"autocomplete xml tags for xml documents instead of just html
-au FileType xhtml,xml so ~/.vim/bundle/HTML-AutoCloseTag/ftplugin/html_autoclosetag.vim
-
 "Fix for gitgutter grep alias
 let g:gitgutter_escape_grep = 1
-
-"Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
-let g:airline_enable_hunks = 0
 
 " Airline stuff
 set noshowmode
@@ -66,7 +58,8 @@ set noshowmode
 let g:airline_theme='solarized'
 " display buffers list
 let g:airline#extensions#tabline#enabled = 1
-
+"Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
+let g:airline_enable_hunks = 0
 ""NOT NEEDED ANYMORE Added U+200A HAIR SPACE in order not to print garbage in gvim
 "let g:airline_left_sep = ""
 "let g:airline_left_alt_sep = "  "
@@ -77,14 +70,11 @@ let g:airline#extensions#tabline#enabled = 1
 "let g:airline_powerline_fonts = ' ✹ '
 "let g:airline_linecolumn_prefix = '  '
 "let g:airline_branch_prefix = '  '
-
 ""NOT NEEDED ANYMORE linecolumn spaces were still buggy in gvim
 "let g:airline_linecolumn_prefix = ' '
-
 ""NOT NEEDED ANYMORE Airline tabline separators should be the powerline ones
 "let g:airline#extensions#tabline#left_sep = ""
 "let g:airline#extensions#tabline#left_alt_sep = ' '
-
 ""USE HAIR SPACE TO AVOID GARBAGE SYMBOLS IN GVIM
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -107,3 +97,6 @@ let g:tagbar_type_scala = {
         \ 'm:methods'
     \ ]
 \ }
+
+"removing html-autoclosetag since it does not work well for me
+UnBundle 'amirh/HTML-AutoCloseTag'
