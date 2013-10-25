@@ -4,6 +4,26 @@ set showbreak=↪
 
 "Ignore whitespaces and tab differences when diffing
 set diffopt+=iwhite
+"options are:
+" -w : ignore all white space
+" -B : ignore changes whose lines are all blank
+" --strip-trailing-cr : strip trailing carriage return on input
+" -d : try hard to find a smaller set of changes
+set diffexpr=MyDiff()
+"Empower iwhite option to ignore all white space and blank lines
+function MyDiff()
+    let opt = ""
+    if &diffopt =~ "icase"
+        let opt = opt . "-i "
+    endif
+    if &diffopt =~ "iwhite"
+        let opt = opt . "-w -B "
+    endif
+    silent execute "!diff -a --binary " . opt . v:fname_in . " " . v:fname_new .
+                \  " > " . v:fname_out
+endfunction
+
+"!diff -w -B -d v:fname_in v:fname_new > v:fname_out"
 
 "highlight column 81
 set colorcolumn=81
