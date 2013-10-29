@@ -4,8 +4,8 @@ set showbreak=↪
 "Wrapping also for diffs (copies the wrap setting)
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
-"Ignore whitespaces and tab differences when diffing
-set diffopt+=iwhite
+"Ignore whitespaces and tab differences when diffing and use vertical splits
+set diffopt+=iwhite,vertical
 "options are:
 " -w : ignore all white space
 " -B : ignore changes whose lines are all blank
