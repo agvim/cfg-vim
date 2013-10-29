@@ -1,7 +1,7 @@
 #!/bin/sh
 #we need the vimrc files to be linked in order to avoid installing unnecessary
 #stuff and installing custom stuff
-homeshick=$HOME/.homesick/repos/homeshick/homeshick.sh
+homeshick=$HOME/.homesick/repos/homeshick/bin/homeshick
 
 #clone the spf13-vim repo
 git_branch='3.0'

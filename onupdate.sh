@@ -4,7 +4,7 @@
 
 #if the homeshick repo has an update, re-link cfg-vim files before updating vim
 if [[ $1 == 1 ]]; then
-    homeshick=$HOME/.homesick/repos/homeshick/homeshick.sh
+    homeshick=$HOME/.homesick/repos/homeshick/bin/homeshick
     $homeshick link cfg-vim
 fi
 
