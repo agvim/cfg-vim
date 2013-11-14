@@ -1,104 +1,95 @@
-"Long line wrapping rulez
-set wrap
-set showbreak=↪
-"Wrapping also for diffs (copies the wrap setting)
-autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+" Modeline and Notes {
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+"   Customizations on top of spf13 vim
+" }
 
-"Ignore whitespaces and tab differences when diffing and use vertical splits
-set diffopt+=iwhite,vertical
-"options are:
-" -w : ignore all white space
-" -B : ignore changes whose lines are all blank
-" --strip-trailing-cr : strip trailing carriage return on input
-" -d : try hard to find a smaller set of changes
-set diffexpr=MyDiff()
-"Empower iwhite option to ignore all white space and blank lines
-function MyDiff()
-    let opt = ""
-    if &diffopt =~ "icase"
-        let opt = opt . "-i "
+" Formatting {
+    "Long line wrapping rulez, add it back
+    set wrap
+    set showbreak=↪
+
+    "tabstob should be 8 generally because it is the assumed default
+    set ts=8
+
+    "Less identation for the following file types
+    autocmd FileType xml,htmlcheetah,tex,markdown setlocal shiftwidth=2 softtabstop=2
+" }
+
+" Diffing {
+    "Wrapping also for diffs (copies the wrap setting)
+    autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+
+    "Ignore whitespaces and tab differences when diffing and use vertical splits
+    set diffopt+=iwhite,vertical
+    "options are:
+    " -w : ignore all white space
+    " -B : ignore changes whose lines are all blank
+    " --strip-trailing-cr : strip trailing carriage return on input
+    " -d : try hard to find a smaller set of changes
+    set diffexpr=MyDiff()
+    "Empower iwhite option to ignore all white space and blank lines
+    function MyDiff()
+        let opt = ""
+        if &diffopt =~ "icase"
+            let opt = opt . "-i "
+        endif
+        if &diffopt =~ "iwhite"
+            let opt = opt . "-w -B "
+        endif
+        silent execute "!diff -a --binary " . opt . v:fname_in . " " . v:fname_new .
+                    \  " > " . v:fname_out
+    endfunction
+" }
+
+" Vim UI {
+
+    "highlight column 80
+    set colorcolumn=80
+
+    " Ruler color fix
+    set background=dark
+
+    if has('gui_running')
+        " Use Inconsolata font in gvim. In vim is the term font
+        set guifont=Inconsolata\ 13
+    else
+        " Indent Guides colors
+        " NOT PICKED UP AUTOMATICALLY IN CONSOLE MODE
+        let g:indent_guides_auto_colors = 0
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=241
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=244
     endif
-    if &diffopt =~ "iwhite"
-        let opt = opt . "-w -B "
+" }
+
+" Bundles config {
+
+    "Fix for gitgutter grep alias
+    let g:gitgutter_escape_grep = 1
+
+    " Airline stuff
+    set noshowmode
+    "use solarized theme
+    let g:airline_theme='solarized'
+    " display buffers list
+    let g:airline#extensions#tabline#enabled = 1
+    "Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
+    let g:airline_enable_hunks = 0
+    ""Use hair space to separate ariline symbols to avoid garbage in gvim
+    if !exists('g:airline_symbols')
+      let g:airline_symbols = {}
     endif
-    silent execute "!diff -a --binary " . opt . v:fname_in . " " . v:fname_new .
-                \  " > " . v:fname_out
-endfunction
+    let g:airline_symbols.space = "\ua0"
 
-"highlight column 81
-set colorcolumn=81
+    "FIXME: does not seem to be properly removed
+    "removing html-autoclosetag since it does not work well for me
+    UnBundle 'amirh/HTML-AutoCloseTag'
+" }
 
-"tabstob should be 8 because it is the default
-set ts=8
+" Key (re)Mappings {
+    "nerdtree fix mapping to a toggle
+    nnoremap <silent> <leader>ee :NERDTreeToggle<CR>
 
-" Ruler color fix
-set background=dark
+    "buffergator toggle mapping
+    nnoremap <silent> <leader>bb :BuffergatorToggle<CR>
+"}
 
-if has('gui_running')
-    " Use Inconsolata font in gvim. In vim is the term font
-    set guifont=Inconsolata\ 13
-else
-    " Indent Guides colors
-    " NOT PICKED UP AUTOMATICALLY IN CONSOLE MODE
-    let g:indent_guides_auto_colors = 0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=241
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=244
-endif
-
-"nerdtree fix mapping to a toggle
-nnoremap <silent> <leader>ee :NERDTreeToggle<CR>
-
-"buffergator toggle mapping
-nnoremap <silent> <leader>bb :BuffergatorToggle<CR>
-
-"Fix for gitgutter grep alias
-let g:gitgutter_escape_grep = 1
-
-" Airline stuff
-set noshowmode
-"use solarized theme
-let g:airline_theme='solarized'
-" display buffers list
-let g:airline#extensions#tabline#enabled = 1
-"Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
-let g:airline_enable_hunks = 0
-""NOT NEEDED ANYMORE Added U+200A HAIR SPACE in order not to print garbage in gvim
-"let g:airline_left_sep = ""
-"let g:airline_left_alt_sep = "  "
-"let g:airline_right_sep = ""
-"let g:airline_right_alt_sep = "  "
-"let g:airline_paste_symbol = 'PASTE'
-"let g:airline_readonly_symbol = '  '
-"let g:airline_powerline_fonts = ' ✹ '
-"let g:airline_linecolumn_prefix = '  '
-"let g:airline_branch_prefix = '  '
-""NOT NEEDED ANYMORE linecolumn spaces were still buggy in gvim
-"let g:airline_linecolumn_prefix = ' '
-""NOT NEEDED ANYMORE Airline tabline separators should be the powerline ones
-"let g:airline#extensions#tabline#left_sep = ""
-"let g:airline#extensions#tabline#left_alt_sep = ' '
-""USE HAIR SPACE TO AVOID GARBAGE SYMBOLS IN GVIM
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
-
-"FIXME: CHECK SCALA PLUGINS, MAYBE NOT NEEDED tagbar scala stuff
-let g:tagbar_type_scala = {
-    \ 'ctagstype' : 'Scala',
-    \ 'kinds'     : [
-        \ 'p:packages:1',
-        \ 'V:values',
-        \ 'v:variables',
-        \ 'T:types',
-        \ 't:traits',
-        \ 'o:objects',
-        \ 'a:aclasses',
-        \ 'c:classes',
-        \ 'r:cclasses',
-        \ 'm:methods'
-    \ ]
-\ }
-
-"removing html-autoclosetag since it does not work well for me
-UnBundle 'amirh/HTML-AutoCloseTag'
