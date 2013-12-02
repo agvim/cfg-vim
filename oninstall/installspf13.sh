@@ -16,3 +16,7 @@ $homeshick link cfg-vim
 
 #run the bootstrap script to download plugins and install spf13
 $endpath/bootstrap.sh
+
+#FIXME: As long as UnBundle does not work in bootstrap, manually clean the
+#UnBundled plugins afterwards
+vim +BundleClean! +qall

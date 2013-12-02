@@ -62,11 +62,16 @@
 " }
 
 " Bundles config {
+    " pylint: trailing spaces are already notified by vim
+    let g:pymode_lint_ignore = "C0303"
 
     "Fix for gitgutter grep alias
     let g:gitgutter_escape_grep = 1
 
-    " Airline stuff
+    " Airline stuff. note that:
+        "" Enable powerline symbols
+        "let g:airline_powerline_fonts = 1
+    " Is already set in .vimrc.before.fork
     set noshowmode
     "use solarized theme
     let g:airline_theme='solarized'
@@ -80,9 +85,11 @@
     endif
     let g:airline_symbols.space = "\ua0"
 
-    "FIXME: does not seem to be properly removed
-    "removing html-autoclosetag since it does not work well for me
+    "removing html-autoclosetag, xmledit replaces it and works better
     UnBundle 'amirh/HTML-AutoCloseTag'
+    "removing vim-bufferline since vim-airline already displays the
+    "buffers in a nicer way
+    UnBundle 'bling/vim-bufferline'
 " }
 
 " Key (re)Mappings {

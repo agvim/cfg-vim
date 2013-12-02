@@ -8,8 +8,19 @@ if [[ $1 == 1 ]]; then
     $homeshick link cfg-vim
 fi
 
-#bootstrap works both for updating and for fresh setup
-$HOME/.spf13-vim-3/bootstrap.sh
+#FIXME: As long as UnBundle does not work in bootstrap, manually do the pull
+#and the vundle commands
+##bootstrap works both for updating and for fresh setup
+#$HOME/.spf13-vim-3/bootstrap.sh
+
+#save the cwd
+currdir=`pwd`
+#pull only the interesting spf13 branch
+spf13_branch='3.0'
+cd $HOME/.spf13-vim-3 && git pull origin "$spf13_branch"
+vim +BundleInstall! +BundleClean! +qall
+#restore the cwd
+cd $currdir
 
 #clean up old views to avoid problems with updated plugins
 rm -f $HOME/.vimviews/*

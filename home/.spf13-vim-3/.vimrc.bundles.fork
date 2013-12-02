@@ -13,4 +13,13 @@
         Bundle 'jeetsukumaran/vim-buffergator'
         Bundle 'sukima/xmledit'
 "   }
+"   Removals{
+        "FIXME: The spf13 install/upgrade script uses the .vimrc.bundle file
+        "instead of .vimrc.
+        "Since the UnBundle function needs to be called after the Bundle and
+        ".vimrc.bundle does not source anything after bundling all the stuff
+        "the UnBundles are in .vimrc.fork.
+        "The homeshick upgrade and install scripts consider this and clean
+        "appropriatelly the Bundles by using the default .vimrc
+"   }
 " }
