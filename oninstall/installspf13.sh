@@ -19,4 +19,4 @@ $endpath/bootstrap.sh
 
 #FIXME: As long as UnBundle does not work in bootstrap, manually clean the
 #UnBundled plugins afterwards
-vim +BundleClean! +qall
+vim +BundleInstall +BundleClean! +qall
