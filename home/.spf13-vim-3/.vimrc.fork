@@ -12,7 +12,7 @@
     set ts=8
 
     "Less identation for the following file types
-    autocmd FileType xml,htmlcheetah,tex,markdown setlocal shiftwidth=2 softtabstop=2
+    autocmd FileType xml,htmlcheetah,tex,markdown,docbk setlocal shiftwidth=2 softtabstop=2
 " }
 
 " Diffing {
@@ -62,11 +62,10 @@
 " }
 
 " Bundles config {
+    " Disable rope in pymode (YouCompleteMe uses Jedi)
+    let g:pymode_rope = 0
     " pylint: trailing spaces are already notified by vim
-    let g:pymode_lint_ignore = "C0303"
-
-    "Fix for gitgutter grep alias
-    let g:gitgutter_escape_grep = 1
+    let g:pymode_lint_ignore = "C0303,E501"
 
     " Airline stuff. note that:
         "" Enable powerline symbols
@@ -84,12 +83,6 @@
       let g:airline_symbols = {}
     endif
     let g:airline_symbols.space = "\ua0"
-
-    "removing html-autoclosetag, xmledit replaces it and works better
-    UnBundle 'amirh/HTML-AutoCloseTag'
-    "removing vim-bufferline since vim-airline already displays the
-    "buffers in a nicer way
-    UnBundle 'bling/vim-bufferline'
 " }
 
 " Key (re)Mappings {

@@ -4,22 +4,19 @@
 " }
 
 " Bundles {
-"   Groups {
-        "remove the following groups:
-        "let g:spf13_bundle_groups=['general', 'neocomplcache', 'programming', 'php', 'ruby', 'python', 'go', 'twig', 'javascript', 'haskell', 'html', 'misc', 'scala']
-        let g:spf13_bundle_groups = ['general', 'neocomplcache', 'programming', 'python', 'html', 'misc', 'scala']
-"   }
 "   Additions {
         Bundle 'jeetsukumaran/vim-buffergator'
         Bundle 'sukima/xmledit'
 "   }
 "   Removals{
-        "FIXME: The spf13 install/upgrade script uses the .vimrc.bundle file
-        "instead of .vimrc.
-        "Since the UnBundle function needs to be called after the Bundle and
-        ".vimrc.bundle does not source anything after bundling all the stuff
-        "the UnBundles are in .vimrc.fork.
-        "The homeshick upgrade and install scripts consider this and clean
-        "appropriatelly the Bundles by using the default .vimrc
+        "removing html-autoclosetag, xmledit replaces it and works better
+        UnBundle 'amirh/HTML-AutoCloseTag'
+        "removing vim-bufferline since vim-airline already displays the
+        "buffers in a nicer way
+        UnBundle 'bling/vim-bufferline'
+        "conflicts with youcompleteme?
+        UnBundle 'pythoncomplete'
+        "UnBundle 'spf13/vim-autoclose'
+        "UnBundle 'klen/python-mode'
 "   }
 " }
