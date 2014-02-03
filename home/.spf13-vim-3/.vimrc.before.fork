@@ -7,13 +7,14 @@
 " spf13 options {
 
     " Prevent automatically changing to open file directory
-       let g:spf13_no_autochdir = 1
-
+    let g:spf13_no_autochdir = 1
+    " Disable useless solarized menu in gvim
+    let g:solarized_menu=0
     " Enable powerline symbols
-       let g:airline_powerline_fonts = 1
+    let g:airline_powerline_fonts = 1
 " }
 "   Bundle Groups {
         "remove groups and replace neocomplcache with youcompleteme:
         "let g:spf13_bundle_groups = ['general', 'neocomplcache', 'programming', 'php', 'ruby', 'python', 'go', 'twig', 'javascript', 'haskell', 'html', 'misc', 'scala']
         let g:spf13_bundle_groups = ['general', 'youcompleteme', 'programming', 'python', 'html', 'misc', 'scala']
-"   }
+" }

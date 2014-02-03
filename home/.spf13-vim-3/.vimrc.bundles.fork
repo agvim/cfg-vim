@@ -5,7 +5,9 @@
 
 " Bundles {
 "   Additions {
+"       "Buffer navigation
         Bundle 'jeetsukumaran/vim-buffergator'
+        "xml tag closing that works
         Bundle 'sukima/xmledit'
 "   }
 "   Removals{
@@ -16,7 +18,5 @@
         UnBundle 'bling/vim-bufferline'
         "conflicts with youcompleteme?
         UnBundle 'pythoncomplete'
-        "UnBundle 'spf13/vim-autoclose'
-        "UnBundle 'klen/python-mode'
 "   }
 " }

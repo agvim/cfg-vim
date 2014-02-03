@@ -72,8 +72,6 @@
         "let g:airline_powerline_fonts = 1
     " Is already set in .vimrc.before.fork
     set noshowmode
-    "use solarized theme
-    let g:airline_theme='solarized'
     " display buffers list
     let g:airline#extensions#tabline#enabled = 1
     "Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
