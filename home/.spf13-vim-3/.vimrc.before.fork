@@ -14,7 +14,7 @@
     let g:airline_powerline_fonts = 1
 " }
 "   Bundle Groups {
-        "remove groups and replace neocomplcache with youcompleteme:
-        "let g:spf13_bundle_groups = ['general', 'neocomplcache', 'programming', 'php', 'ruby', 'python', 'go', 'twig', 'javascript', 'haskell', 'html', 'misc', 'scala']
-        let g:spf13_bundle_groups = ['general', 'youcompleteme', 'programming', 'python', 'html', 'misc', 'scala']
+        "remove groups
+        "let g:spf13_bundle_groups=['general', 'writing', 'neocomplcache', 'programming', 'php', 'ruby', 'python', 'twig', 'javascript', 'html', 'misc',]
+        let g:spf13_bundle_groups = ['general', 'writing', 'neocomplcache', 'programming', 'python', 'html', 'misc', 'scala']
 " }

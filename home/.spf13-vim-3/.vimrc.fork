@@ -12,7 +12,7 @@
     set ts=8
 
     "Less identation for the following file types
-    autocmd FileType xml,htmlcheetah,tex,markdown,docbk setlocal shiftwidth=2 softtabstop=2
+    autocmd FileType xml,htmlcheetah,tex,markdown,docbk,xsd setlocal shiftwidth=2 softtabstop=2
 " }
 
 " Diffing {
@@ -51,14 +51,12 @@
 
     if has('gui_running')
         " Use Inconsolata font in gvim. In vim is the term font
-        set guifont=Inconsolata\ 13
-    else
-        " Indent Guides colors
-        " NOT PICKED UP AUTOMATICALLY IN CONSOLE MODE
-        let g:indent_guides_auto_colors = 0
-        autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=241
-        autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=244
+        set guifont=Inconsolata\ 12
     endif
+    " Indent Guides colors
+    let g:indent_guides_auto_colors = 0
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#586e75 ctermbg=240
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#586e75 ctermbg=240
 " }
 
 " Bundles config {
