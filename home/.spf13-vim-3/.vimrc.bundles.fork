@@ -11,12 +11,14 @@
         Bundle 'sukima/xmledit'
 "   }
 "   Removals{
-        "removing html-autoclosetag, xmledit replaces it and works better
+        " removing html-autoclosetag, xmledit replaces it and works better
         UnBundle 'amirh/HTML-AutoCloseTag'
-        "removing vim-bufferline since vim-airline already displays the
-        "buffers in a nicer way
+        " removing vim-bufferline since vim-airline already displays the
+        " buffers in a nicer way
         UnBundle 'bling/vim-bufferline'
-        "conflicts with youcompleteme?
-        UnBundle 'pythoncomplete'
+        " conflicts with youcompleteme?, not using youcompleteme currently
+        " UnBundle 'pythoncomplete'
+        " remove the python menu
+        UnBundle 'python.vim'
 "   }
 " }
