@@ -3,4 +3,4 @@
 This is a homeshick configuration repository. See
 https://github.com/andsens/homeshick
 
-This deploys spf13 vim with my modified homeshick.
+This deploys perfectwork’s spf13 vim fork with my modified homeshick configuration.

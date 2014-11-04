@@ -5,7 +5,6 @@
 " }
 
 " spf13 options {
-
     " Prevent automatically changing to open file directory
     let g:spf13_no_autochdir = 1
     " Disable useless solarized menu in gvim
@@ -13,8 +12,15 @@
     " Enable powerline symbols
     let g:airline_powerline_fonts = 1
 " }
-"   Bundle Groups {
-        "remove groups
-        "let g:spf13_bundle_groups=['general', 'writing', 'neocomplcache', 'programming', 'php', 'ruby', 'python', 'twig', 'javascript', 'html', 'misc',]
-        let g:spf13_bundle_groups = ['general', 'writing', 'neocomplcache', 'programming', 'python', 'html', 'misc', 'scala']
+
+" Bundle Groups {
+    " check available ones in .vimrc.bundles
+    let g:spf13_bundle_groups = ['general', 'writing', 'neocomplcache', 'programming', 'python', 'html', 'misc', 'scala']
+" }
+
+" neobundle config {
+    " for git repositories, do not download all the changes history, only the
+    " latest commit
+    " WARNING: this may cause problems with some plugins
+    let g:neobundle#types#git#clone_depth = 1
 " }

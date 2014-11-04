@@ -4,30 +4,30 @@
 " }
 
 " Formatting {
-    "Long line wrapping rulez, add it back
+    " Long line wrapping rulez, add it back
     set wrap
     set showbreak=↪
 
-    "tabstob should be 8 generally because it is the assumed default
+    " tabstob should be 8 generally because it is the assumed default
     set ts=8
 
-    "Less identation for the following file types
+    " Less identation for the following file types
     autocmd FileType xml,htmlcheetah,tex,markdown,docbk,xsd,xslt setlocal shiftwidth=2 softtabstop=2
 " }
 
 " Diffing {
-    "Wrapping also for diffs (copies the wrap setting)
+    " Wrapping also for diffs (copies the wrap setting)
     autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
-    "Ignore whitespaces and tab differences when diffing and use vertical splits
+    " Ignore whitespaces and tab differences when diffing and use vertical splits
     set diffopt+=iwhite,vertical
-    "options are:
+    " options are:
     " -w : ignore all white space
     " -B : ignore changes whose lines are all blank
     " --strip-trailing-cr : strip trailing carriage return on input
     " -d : try hard to find a smaller set of changes
     set diffexpr=MyDiff()
-    "Empower iwhite option to ignore all white space and blank lines
+    " Empower iwhite option to ignore all white space and blank lines
     function MyDiff()
         let opt = ""
         if &diffopt =~ "icase"
@@ -53,40 +53,53 @@
         " Use Inconsolata font in gvim. In vim is the term font
         set guifont=Inconsolata\ 12
     endif
+
     " Indent Guides colors
-    let g:indent_guides_auto_colors = 0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#073642 ctermbg=235
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#073642 ctermbg=235
+    if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
+        let g:indent_guides_auto_colors = 0
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#073642 ctermbg=235
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#073642 ctermbg=235
+    endif
 " }
 
 " Bundles config {
     " pylint: trailing spaces are already notified by vim
-    let g:pymode_lint_ignore = "C0303,E501"
+    if isdirectory(expand("~/.vim/bundle/python-mode/"))
+        let g:pymode_lint_ignore = "C0303,E501"
+    endif
 
     " Airline stuff. note that:
         "" Enable powerline symbols
         "let g:airline_powerline_fonts = 1
     " Is already set in .vimrc.before.fork
-    set noshowmode
-    " display buffers list
-    let g:airline#extensions#tabline#enabled = 1
-    "Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
-    let g:airline_enable_hunks = 0
-    ""Use hair space to separate ariline symbols to avoid garbage in gvim
-    if !exists('g:airline_symbols')
-      let g:airline_symbols = {}
+    if isdirectory(expand("~/.vim/bundle/vim-airline/"))
+        set noshowmode
+        " display buffers list
+        let g:airline#extensions#tabline#enabled = 1
+        " Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
+        let g:airline_enable_hunks = 0
+        " Use hair space to separate ariline symbols to avoid garbage in gvim
+        if !exists('g:airline_symbols')
+            let g:airline_symbols = {}
+        endif
+        let g:airline_symbols.space = "\ua0"
     endif
-    let g:airline_symbols.space = "\ua0"
 " }
 
 " Key (re)Mappings {
-    "nerdtree fix mapping to a toggle
-    nnoremap <silent> <leader>ee :NERDTreeToggle<CR>
+    " nerdtree fix mapping to a toggle
+    if isdirectory(expand("~/.vim/bundle/nerdtree/"))
+        nnoremap <silent> <leader>ee :NERDTreeToggle<CR>
+    endif
 
-    "buffergator toggle mapping
-    nnoremap <silent> <leader>bb :BuffergatorToggle<CR>
+    " unite
+    if isdirectory(expand("~/.vim/bundle/unite.vim/"))
+        " use same keybindings as ctrl-p and buffergator
+        nnoremap <silent> <c-p> :Unite -start-insert file<CR>
+        nnoremap <silent> <leader>bb :Unite buffer<CR>
+    endif
 
-    "disable arrows, insert, delete, home, end, pgup and pgdown keys
+    " disable arrows, insert, delete, home, end, pgup and pgdown keys
     inoremap <Up> <NOP>
     noremap <Up> <NOP>
     inoremap <Down> <NOP>
@@ -103,5 +116,5 @@
     noremap <Insert> <NOP>
     inoremap <Del> <NOP>
     noremap <Del> <NOP>
-"}
+" }
 

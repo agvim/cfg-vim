@@ -1,0 +1,38 @@
+" Modeline and Notes {
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+"   Customizations on top of spf13 vim
+" }
+
+" Bundles {
+"   Additions {
+"       " Use vimproc for parallel execution in NeoBundle
+        NeoBundle 'Shougo/vimproc.vim', {
+        \ 'build' : {
+        \     'windows' : 'tools\\update-dll-mingw',
+        \     'cygwin' : 'make -f make_cygwin.mak',
+        \     'mac' : 'make -f make_mac.mak',
+        \     'linux' : 'make',
+        \     'unix' : 'gmake',
+        \    },
+        \ }
+"   }
+"   Removals {
+        " removing vim-bufferline since vim-airline already displays the
+        " buffers in a nicer way
+        UnBundle 'bling/vim-bufferline'
+        " conflicts with youcompleteme?, not using youcompleteme currently
+        " UnBundle 'pythoncomplete'
+        " remove the python menu
+        UnBundle 'python.vim'
+"   }
+"   Replacements {
+        " removing html-autoclosetag, xmledit works better
+        UnBundle 'amirh/HTML-AutoCloseTag'
+        Bundle 'sukima/xmledit'
+
+        " Replacing ctrlp with unite
+        UnBundle 'kien/ctrlp.vim'
+        UnBundle 'tacahiroy/ctrlp-funky'
+        Bundle 'Shougo/unite.vim'
+"   }
+" }

@@ -17,8 +17,8 @@ fi
 currdir=`pwd`
 spf13_branch='3.0'
 cd $HOME/.spf13-vim-3 && git pull origin "$spf13_branch"
-vim +BundleInstall! +BundleClean! +qall
-cd $currdir
+vim "+set nomore" +NeoBundleUpdate +NeoBundleInstall +NeoBundleClean! +qall
+cd "$currdir"
 
 # clean up old views to avoid problems with updated plugins
 rm -f $HOME/.vimviews/*
