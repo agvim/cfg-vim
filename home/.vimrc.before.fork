@@ -15,7 +15,7 @@
 
 " Bundle Groups {
     " check available ones in .vimrc.bundles
-    let g:spf13_bundle_groups = ['general', 'writing', 'neocomplcache', 'programming', 'python', 'html', 'misc', 'scala']
+    let g:spf13_bundle_groups = ['general', 'writing', 'neocomplete', 'programming', 'python', 'html', 'scala']
 " }
 
 " neobundle config {
@@ -23,4 +23,12 @@
     " latest commit
     " WARNING: this may cause problems with some plugins
     let g:neobundle#types#git#clone_depth = 1
+" }
+
+" terminal environment variable fix for solarized {
+    " if not in a mac, copy COLORTERM to TERM_PROGRAM since solarized checks
+    " for the mac variable
+    if !has('macunix')
+        let $TERM_PROGRAM = $COLORTERM
+    endif
 " }

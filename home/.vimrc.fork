@@ -13,6 +13,8 @@
 
     " Less identation for the following file types
     autocmd FileType xml,htmlcheetah,tex,markdown,docbk,xsd,xslt setlocal shiftwidth=2 softtabstop=2
+    " Force md files to be recognized as markdown instead of modula files
+    au BufRead,BufNewFile *.md set filetype=markdown
 " }
 
 " Diffing {
@@ -57,8 +59,8 @@
     " Indent Guides colors
     if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
         let g:indent_guides_auto_colors = 0
-        autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#073642 ctermbg=235
-        autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#073642 ctermbg=235
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#586e75 ctermbg=240
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#586e75 ctermbg=240
     endif
 " }
 

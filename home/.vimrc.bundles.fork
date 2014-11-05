@@ -24,6 +24,11 @@
         " UnBundle 'pythoncomplete'
         " remove the python menu
         UnBundle 'python.vim'
+        " lots of unused colorschemes and conflicting solarized
+        UnBundle 'spf13/vim-colors'
+        UnBundle 'flazz/vim-colorschemes'
+        " I do not use sessions
+        UnBundle 'vim-scripts/sessionman.vim'
 "   }
 "   Replacements {
         " removing html-autoclosetag, xmledit works better
@@ -34,5 +39,9 @@
         UnBundle 'kien/ctrlp.vim'
         UnBundle 'tacahiroy/ctrlp-funky'
         Bundle 'Shougo/unite.vim'
+
+        " Fix wrong solarized 256 color values
+        UnBundle 'altercation/vim-colors-solarized'
+        Bundle 'agvim/vim-colors-solarized'
 "   }
 " }
