@@ -15,8 +15,9 @@ fi
 
 # pull only the interesting spf13 branch
 currdir=`pwd`
-spf13_branch='3.0'
-cd $HOME/.spf13-vim-3 && git pull origin "$spf13_branch"
+git_branch='master'
+app_dir="$HOME/.pw-vim-3"
+cd "$app_dir" && git pull origin "$git_branch"
 vim "+set nomore" +NeoBundleUpdate +NeoBundleInstall +NeoBundleClean! +qall
 cd "$currdir"
 
