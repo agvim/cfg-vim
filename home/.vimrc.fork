@@ -79,7 +79,7 @@
         " display buffers list
         let g:airline#extensions#tabline#enabled = 1
         " Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
-        let g:airline_enable_hunks = 0
+        let g:airline#extensions#hunks#enabled = 0
         " Use hair space to separate ariline symbols to avoid garbage in gvim
         if !exists('g:airline_symbols')
             let g:airline_symbols = {}

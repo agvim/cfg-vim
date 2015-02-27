@@ -29,6 +29,8 @@
         UnBundle 'flazz/vim-colorschemes'
         " I do not use sessions
         UnBundle 'vim-scripts/sessionman.vim'
+        " Other unused bundles
+        UnBundle 'mattn/gist-vim'
 "   }
 "   Replacements {
         " removing html-autoclosetag, xmledit works better
@@ -36,7 +38,7 @@
         Bundle 'sukima/xmledit'
 
         " Replacing ctrlp with unite
-        UnBundle 'kien/ctrlp.vim'
+        UnBundle 'ctrlpvim/ctrlp.vim'
         UnBundle 'tacahiroy/ctrlp-funky'
         Bundle 'Shougo/unite.vim'
 
