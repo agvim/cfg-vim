@@ -15,7 +15,7 @@
 
 " Bundle Groups {
     " check available ones in .vimrc.bundles
-    let g:spf13_bundle_groups = ['general', 'writing', 'neocomplete', 'programming', 'python', 'html', 'scala']
+    let g:spf13_bundle_groups = ['general', 'writing', 'neocomplete', 'programming', 'python', 'html']
 " }
 
 " neobundle config {

@@ -16,14 +16,12 @@
         \    },
         \ }
         " Use editorconfig to adapt to coding styles when reviewing code
-        NeoBundle 'editorconfig/editorconfig-vim'
+        Bundle 'editorconfig/editorconfig-vim'
 "   }
 "   Removals {
         " removing vim-bufferline since vim-airline already displays the
         " buffers in a nicer way
         UnBundle 'bling/vim-bufferline'
-        " conflicts with youcompleteme?, not using youcompleteme currently
-        " UnBundle 'pythoncomplete'
         " remove the python menu
         UnBundle 'python.vim'
         " lots of unused colorschemes and conflicting solarized
@@ -31,8 +29,14 @@
         UnBundle 'flazz/vim-colorschemes'
         " I do not use sessions
         UnBundle 'vim-scripts/sessionman.vim'
-        " Other unused bundles
+        " not using gists
         UnBundle 'mattn/gist-vim'
+        " not needing web APIs
+        UnBundle 'mattn/webapi-vim'
+        " not using comment or alignment plugins
+        UnBundle 'scrooloose/nerdcommenter'
+        UnBundle 'tpope/vim-commentary'
+        UnBundle 'godlygeek/tabular'
 "   }
 "   Replacements {
         " removing html-autoclosetag, xmledit works better
