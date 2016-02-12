@@ -17,6 +17,8 @@
         \ }
         " Use editorconfig to adapt to coding styles when reviewing code
         Bundle 'editorconfig/editorconfig-vim'
+        " TODO XXX FIXME: Temporary addition of vim-airline-themes until pw adds it
+        Bundle 'vim-airline/vim-airline-themes'
 "   }
 "   Removals {
         " removing vim-bufferline since vim-airline already displays the
@@ -37,6 +39,10 @@
         UnBundle 'scrooloose/nerdcommenter'
         UnBundle 'tpope/vim-commentary'
         UnBundle 'godlygeek/tabular'
+        " multiple cursors is slow and annoying
+        UnBundle 'terryma/vim-multiple-cursors'
+        " not using abolish corrections
+        UnBundle 'tpope/vim-abolish.git'
 "   }
 "   Replacements {
         " removing html-autoclosetag, xmledit works better
@@ -51,5 +57,16 @@
         " Fix wrong solarized 256 color values
         UnBundle 'altercation/vim-colors-solarized'
         Bundle 'agvim/vim-colors-solarized'
+"   }
+"   neovim {
+"       TODO XXX FIXME THE BUNDLES FOLDER NEEDS TO BE DIFFERENT FOR NEOVIM
+"       otherwhise it will install/uninstall stuff also on the other vim!
+        if has('nvim')
+            " Replace neocomplcache with deoplete, neocomplete is not in the
+            " neovim bundle grups so no need to unbundle.
+            " note that deoplete requires python bindings. Install with:
+            " pip3 install --user neovim
+            Bundle 'Shougo/deoplete.nvim'
+        endif
 "   }
 " }

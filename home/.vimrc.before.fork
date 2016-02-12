@@ -15,7 +15,12 @@
 
 " Bundle Groups {
     " check available ones in .vimrc.bundles
-    let g:spf13_bundle_groups = ['general', 'writing', 'neocomplete', 'programming', 'python', 'html']
+    if has('nvim')
+        " do not use neocomplete
+        let g:spf13_bundle_groups = ['general', 'writing', 'programming', 'python', 'html']
+    else
+        let g:spf13_bundle_groups = ['general', 'writing', 'neocomplete', 'programming', 'python', 'html']
+    endif
 " }
 
 " neobundle config {
