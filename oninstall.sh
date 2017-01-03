@@ -1,7 +1,9 @@
 #!/bin/sh
-# install spf13 and the configured bundles
-$(dirname $0)/oninstall/installspf13.sh
+# install the configured vim bundles
+mkdir -p ~/.vim/bundle/repos/github.com/Shougo/dein.vim
+git clone --depth 1 https://github.com/Shougo/dein.vim ~/.vim/bundle/repos/github.com/Shougo/dein.vim
+homeshick link cfg-vim
+vim "+set nomore" "+call dein#install()" "+q!"
+
 # install statusline fonts
 $(dirname $0)/oninstall/powerlinefonts.sh
-# not installing YouCompleteMe now since it is not being cloned
-# $(dirname $0)/oninstall/youcompleteme.sh
