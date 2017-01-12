@@ -7,7 +7,6 @@
   set nocompatible
   let s:is_windows = has('win32') || has('win64')
   let s:is_cygwin = has('win32unix')
-  let s:is_macvim = has('gui_macvim')
 
   function! s:get_cache_dir(suffix) " {
     return resolve(expand(s:cache_dir . '/' . a:suffix))
@@ -68,7 +67,7 @@
 
     " swap files
     let &directory = s:get_cache_dir('swap')
-    set noswapfile
+    " set noswapfile
 
     call EnsureExists(s:cache_dir)
     call EnsureExists(&undodir)
@@ -80,6 +79,7 @@
     set foldenable
     set foldmethod=syntax
     set foldlevelstart=99
+    " fold xml based on syntax
     let g:xml_syntax_folding=1
 
     " no menu items
@@ -106,7 +106,7 @@
 
   " highlight whitespace
   set list
-  set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
+  set listchars=tab:›\ ,trail:•,extends:❯,precedes:❮
   let &showbreak='↪ '
 
   " allow backspacing everything in insert mode
@@ -144,7 +144,15 @@
   set showmatch
 
   " use OS clipboard
-  set clipboard=unnamed
+  if has('clipboard')
+    " When possible use + register for copy-paste
+    if has('unnamedplus')
+      set clipboard=unnamed,unnamedplus
+    " On Windows, use * register for copy-paste
+    else
+      set clipboard=unnamed
+    endif
+  endif
 
   " use utf-8 as default encoding
   set encoding=utf-8
@@ -202,8 +210,11 @@
 
   " solarized color schemes
   call dein#add('agvim/vim-colors-solarized') " {
+    " use 256 color mode
     let g:solarized_termcolors=256
     let g:solarized_termtrans=1
+    " disable menu in gui
+    let g:solarized_menu=0
   " }
 
   " to use % to go to matching opening/closing tag/char
@@ -212,6 +223,7 @@
   " fancy statusline
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('vim-airline/vim-airline') " {
+    " do not show default mode
     set noshowmode
     " display buffers list
     let g:airline#extensions#tabline#enabled = 1
@@ -229,7 +241,9 @@
     nmap <leader>7 <Plug>AirlineSelectTab7
     nmap <leader>8 <Plug>AirlineSelectTab8
     nmap <leader>9 <Plug>AirlineSelectTab9
-    " fixes
+    " FIXES
+    " force showing statusline
+    set laststatus=2
     " Use hair space to separate ariline symbols to avoid garbage in gvim
     if !exists('g:airline_symbols')
       let g:airline_symbols = {}
@@ -400,7 +414,7 @@
   endif
   autocmd VimEnter * call dein#call_hook('post_source')
 
-  " enable auto indent and colorized sintax
+  " enable auto indent and colorized syntax
   filetype plugin indent on
   syntax enable
   color solarized
