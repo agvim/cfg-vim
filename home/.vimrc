@@ -279,6 +279,8 @@
     call dein#add('roxma/vim-hug-neovim-rpc')
   endif
   let g:deoplete#enable_at_startup = 1
+  " do not show the typed word in the completion menu for around completion
+  call deoplete#custom#source('around', 'matchers', ['matcher_fuzzy', 'matcher_length'])
   " }
 
   " set tab selects next autocompletion item and ctrl+k uses a selected
@@ -334,7 +336,7 @@
         if neosnippet#expandable_or_jumpable()
           return "\<Plug>(neosnippet_expand_or_jump)"
         else
-          return deoplete#start_manual_complete()
+          return deoplete#manual_complete()
         endif
       endif
     endfunction
