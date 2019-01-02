@@ -34,17 +34,18 @@
     endif
   endfunction " }
 
-  " shell fixes
-  if s:is_windows && !s:is_cygwin
-    " ensure correct shell in gvim
-    set shell=c:\windows\system32\cmd.exe
-  endif
-  if $SHELL =~ '/fish$'
-    " VIM expects to be run from a POSIX shell.
-    set shell=sh
-  endif
-  " use pipes
-  set noshelltemp
+  " shell fixes {
+    if s:is_windows && !s:is_cygwin
+      " ensure correct shell in gvim
+      set shell=c:\windows\system32\cmd.exe
+    endif
+    if $SHELL =~ '/fish$'
+      " VIM expects to be run from a POSIX shell.
+      set shell=sh
+    endif
+    " use pipes
+    set noshelltemp
+  " }
 
   " grep with ag
   if executable('ag')
@@ -75,22 +76,23 @@
     call EnsureExists(&directory)
   " }
 
-    " folding
+  " folding {
     set foldenable
     set foldmethod=syntax
     set foldlevelstart=99
     " fold xml based on syntax
     let g:xml_syntax_folding=1
+  " }
 
-    " no menu items
-    set guioptions+=t
-    " no toolbar icons
-    set guioptions-=T
+  " no menu items
+  set guioptions+=t
+  " no toolbar icons
+  set guioptions-=T
 
-    autocmd BufReadPost *
-      \ if line("'\"") > 0 && line("'\"") <= line("$") |
-      \  exe 'normal! g`"zvzz' |
-      \ endif
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \  exe 'normal! g`"zvzz' |
+    \ endif
 " }
 
 " Main stuff {
@@ -176,7 +178,7 @@
 
   " Ignore whitespaces and tab differences when diffing and use vertical splits
   set diffopt+=iwhite,vertical
-  " some options are:
+  " Use gnu diffutils as it is more powerful, added options are:
   " -w : ignore all white space
   " -B : ignore changes whose lines are all blank
   " --strip-trailing-cr : strip trailing carriage return on input
@@ -206,6 +208,14 @@
     set rtp+=~/.vim/bundle/repos/github.com/Shougo/dein.vim
     call dein#begin(expand('~/.vim/bundle/'))
     call dein#add('Shougo/dein.vim')
+  " }
+
+  " nicer interface for dein EXPERIMENTAL
+  call dein#add('wsdjeg/dein-ui.vim') " {
+    " variables needed to work,
+    " let g:spacevim_version = "1"
+    " let g:spacevim_plugin_manager = "dein"
+    " let g:spacevim_plugin_manager_max_processes = 8
   " }
 
   " solarized color schemes
@@ -244,6 +254,7 @@
     " FIXES
     " force showing statusline
     set laststatus=2
+    " TODO: does not seem to work
     " Use hair space to separate ariline symbols to avoid garbage in gvim
     if !exists('g:airline_symbols')
       let g:airline_symbols = {}
@@ -269,19 +280,27 @@
     let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
     let g:neosnippet#enable_snipmate_compatibility=1
   " }
-  " call dein#add('Shougo/neocomplete.vim', {'on_i':1}) " {
-  "   let g:neocomplete#enable_at_startup=1
-  "   let g:neocomplete#data_directory=s:get_cache_dir('neocomplete')
-  " " }
   call dein#add('Shougo/deoplete.nvim') " {
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
-  let g:deoplete#enable_at_startup = 1
-  " do not show the typed word in the completion menu for around completion
-  call deoplete#custom#source('around', 'matchers', ['matcher_fuzzy', 'matcher_length'])
+    if !has('nvim')
+      call dein#add('roxma/nvim-yarp')
+      call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+    let g:deoplete#enable_at_startup = 1
+    " do not show the typed word in the completion menu for around completion
+    call deoplete#custom#source('around', 'matchers', ['matcher_fuzzy', 'matcher_length'])
   " }
+
+  " language client for multilanguage autocompletion
+  call dein#add('autozimu/LanguageClient-neovim', {
+    \ 'rev': 'next',
+    \ 'build': 'bash install.sh',
+    \ })
+
+  " for python server: pip install python-language-server
+  let g:LanguageClient_serverCommands = {
+    \ 'python': ['pyls'],
+    \ }
+  " nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 
   " set tab selects next autocompletion item and ctrl+k uses a selected
   " snippet {
@@ -404,16 +423,16 @@
 " }
 
 " General Key (re)Mappings {
-    " screen line scroll
-    nnoremap <silent> j gj
-    nnoremap <silent> k gk
+  " screen line scroll
+  nnoremap <silent> j gj
+  nnoremap <silent> k gk
 
-    " reselect visual block after indent
-    vnoremap < <gv
-    vnoremap > >gv
+  " reselect visual block after indent
+  vnoremap < <gv
+  vnoremap > >gv
 
-    " make Y consistent with C and D (yank until end of line).
-    nnoremap Y y$
+  " make Y consistent with C and D (yank until end of line).
+  nnoremap Y y$
 " }
 
 " finish loading {
