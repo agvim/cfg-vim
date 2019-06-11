@@ -133,8 +133,8 @@
   autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql,tex,markdown,docbk,xsd,xslt autocmd BufWritePre <buffer> call StripTrailingWhitespace()
   " python is indentation based folding
   autocmd FileType python setlocal foldmethod=indent
-  " Force md files to be recognized as markdown instead of modula files
-  au BufRead,BufNewFile *.md set filetype=markdown
+  " Force md and markdeep files to be recognized as markdown instead of modula or html files
+  au BufRead,BufNewFile *.md,*.md.html set filetype=markdown
 
   " searching
   set hlsearch
@@ -211,12 +211,7 @@
   " }
 
   " nicer interface for dein EXPERIMENTAL
-  call dein#add('wsdjeg/dein-ui.vim') " {
-    " variables needed to work,
-    " let g:spacevim_version = "1"
-    " let g:spacevim_plugin_manager = "dein"
-    " let g:spacevim_plugin_manager_max_processes = 8
-  " }
+  call dein#add('wsdjeg/dein-ui.vim')
 
   " solarized color schemes
   call dein#add('agvim/vim-colors-solarized') " {
@@ -300,7 +295,11 @@
   let g:LanguageClient_serverCommands = {
     \ 'python': ['pyls'],
     \ }
-  " nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+
+  " swift indent and highlight
+  call dein#add('toyamarinyon/vim-swift')
+
+  nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 
   " set tab selects next autocompletion item and ctrl+k uses a selected
   " snippet {
@@ -370,7 +369,7 @@
   " }
 
   " eases sharing and following editor configuration conventions
-  call dein#add('editorconfig/editorconfig-vim', {'on_i':1})
+  call dein#add('editorconfig/editorconfig-vim', {'on_event':['BufNewFile', 'BufReadPost', 'BufFilePost']})
 
   " auto closes braces and such
   call dein#add('jiangmiao/auto-pairs')
