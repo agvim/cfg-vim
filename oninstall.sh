@@ -6,4 +6,4 @@ homeshick link cfg-vim
 vim "+set nomore" "+call dein#install()" "+q!"
 
 # install statusline fonts
-$(dirname $0)/oninstall/powerlinefonts.sh
+# $(dirname $0)/oninstall/powerlinefonts.sh
