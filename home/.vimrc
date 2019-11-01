@@ -127,14 +127,14 @@
   " line numbers
   set number
 
+  " Force md and markdeep files to be recognized as markdown instead of modula or html files
+  au BufRead,BufNewFile *.md,*.md.html set filetype=markdown
   " Less identation for the following file types
   autocmd FileType xml,tex,markdown,docbk,xsd,xslt setlocal shiftwidth=2 softtabstop=2
   " automatically strip trailing whitespace for these file types
   autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql,tex,markdown,docbk,xsd,xslt autocmd BufWritePre <buffer> call StripTrailingWhitespace()
   " python is indentation based folding
   autocmd FileType python setlocal foldmethod=indent
-  " Force md and markdeep files to be recognized as markdown instead of modula or html files
-  au BufRead,BufNewFile *.md,*.md.html set filetype=markdown
 
   " searching
   set hlsearch
@@ -167,8 +167,8 @@
   set spell
 
   if has('gui_running')
-    " Use Inconsolata font in gvim. In vim is the term font
-    set guifont=Inconsolata\ 12
+    " Use Fira code font in gvim. In vim is the term font
+    set guifont=Fira\ Code\ 11
   endif
 " }
 
@@ -234,8 +234,8 @@
     let g:airline#extensions#tabline#enabled = 1
     " Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
     let g:airline#extensions#hunks#enabled = 0
-    " use powerline fonts
-    let g:airline_powerline_fonts = 1
+    " do not use powerline fonts
+    let g:airline_powerline_fonts = 0
     let g:airline#extensions#tabline#buffer_idx_mode = 1
     nmap <leader>1 <Plug>AirlineSelectTab1
     nmap <leader>2 <Plug>AirlineSelectTab2
@@ -295,9 +295,6 @@
   let g:LanguageClient_serverCommands = {
     \ 'python': ['pyls'],
     \ }
-
-  " swift indent and highlight
-  call dein#add('toyamarinyon/vim-swift')
 
   nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 
@@ -446,4 +443,6 @@
   syntax enable
   color solarized
   set background=dark
+  " enable italics in terminal
+  highlight Comment cterm=italic
 " }
