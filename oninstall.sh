@@ -1,9 +1,12 @@
 #!/bin/sh
 # install the configured vim bundles
-mkdir -p ~/.vim/bundle/repos/github.com/Shougo/dein.vim
-git clone --depth 1 https://github.com/Shougo/dein.vim ~/.vim/bundle/repos/github.com/Shougo/dein.vim
+mkdir -p ~/.vim/autoload/
+wget -O ~/.vim/autoload/plug.vim -- https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# neovim compatibility
+mkdir -p ~/.local/share/nvim/site/autoload/
+ln -s ~/.vim/autoload/plug.vim ~/.local/share/nvim/site/autoload/plug.vim
 homeshick link cfg-vim
-vim "+set nomore" "+call dein#install()" "+q!"
+vim "+PlugInstall" "+q!"
 
 # install statusline fonts
 # $(dirname $0)/oninstall/powerlinefonts.sh

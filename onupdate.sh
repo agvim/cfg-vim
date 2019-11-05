@@ -8,4 +8,4 @@ if [[ $1 == 1 ]]; then
     $homeshick link cfg-vim
 fi
 
-vim "+set nomore" "+call dein#update()" "+q!"
+vim "+PlugUpgrade" "+PlugUpdate" "+q"

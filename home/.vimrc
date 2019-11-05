@@ -3,10 +3,8 @@
 "   vimrc based on https://github.com/bling/dotvim
 " }
 
-" detect OS & misc stuff {
+" misc stuff {
   set nocompatible
-  let s:is_windows = has('win32') || has('win64')
-  let s:is_cygwin = has('win32unix')
 
   function! s:get_cache_dir(suffix) " {
     return resolve(expand(s:cache_dir . '/' . a:suffix))
@@ -35,10 +33,6 @@
   endfunction " }
 
   " shell fixes {
-    if s:is_windows && !s:is_cygwin
-      " ensure correct shell in gvim
-      set shell=c:\windows\system32\cmd.exe
-    endif
     if $SHELL =~ '/fish$'
       " VIM expects to be run from a POSIX shell.
       set shell=sh
@@ -54,7 +48,7 @@
   endif
 
   " vim file/folder management {
-    let s:cache_dir = '~/.vim/cache'
+    let s:cache_dir = '~/.cache/vim'
 
     " persistent undo
     if exists('+undofile')
@@ -199,43 +193,27 @@
 " }
 
 " plugins  config {
-  " plugins are managed with dein {
-    if s:is_windows
-      set rtp+=~/.vim
-    endif
-    " do not download the full plugin's history
-    let g:dein#types#git#clone_depth = 1
-    set rtp+=~/.vim/bundle/repos/github.com/Shougo/dein.vim
-    call dein#begin(expand('~/.vim/bundle/'))
-    call dein#add('Shougo/dein.vim')
-  " }
+  " plugins are managed with vim-plug {
+  call plug#begin('~/.vim/plugged')
 
-  " nicer interface for dein EXPERIMENTAL
-  call dein#add('wsdjeg/dein-ui.vim')
-
-  " solarized color schemes
-  call dein#add('agvim/vim-colors-solarized') " {
-    " use 256 color mode
-    let g:solarized_termcolors=256
-    let g:solarized_termtrans=1
-    " disable menu in gui
-    let g:solarized_menu=0
-  " }
+  " solarized color scheme
+  Plug 'iCyMind/NeoSolarized'
 
   " to use % to go to matching opening/closing tag/char
-  call dein#add('vim-scripts/matchit.zip')
+  Plug 'vim-scripts/matchit.zip'
 
   " fancy statusline
-  call dein#add('vim-airline/vim-airline-themes')
-  call dein#add('vim-airline/vim-airline') " {
+  Plug 'vim-airline/vim-airline-themes'
+  Plug 'vim-airline/vim-airline' " {
     " do not show default mode
     set noshowmode
     " display buffers list
     let g:airline#extensions#tabline#enabled = 1
     " Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
     let g:airline#extensions#hunks#enabled = 0
-    " do not use powerline fonts
-    let g:airline_powerline_fonts = 0
+    " use powerline fonts
+    let g:airline_powerline_fonts = 1
+    " switch tabs with leader + number
     let g:airline#extensions#tabline#buffer_idx_mode = 1
     nmap <leader>1 <Plug>AirlineSelectTab1
     nmap <leader>2 <Plug>AirlineSelectTab2
@@ -246,50 +224,38 @@
     nmap <leader>7 <Plug>AirlineSelectTab7
     nmap <leader>8 <Plug>AirlineSelectTab8
     nmap <leader>9 <Plug>AirlineSelectTab9
-    " FIXES
-    " force showing statusline
-    set laststatus=2
-    " TODO: does not seem to work
-    " Use hair space to separate ariline symbols to avoid garbage in gvim
-    if !exists('g:airline_symbols')
-      let g:airline_symbols = {}
-    endif
-    let g:airline_symbols.space = "\ua0"
   " }
 
   " surround a selected block of text
-  call dein#add('tpope/vim-surround')
-
-  " async library. maybe not needed?
-  call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+  Plug 'tpope/vim-surround'
 
   " show changed lines in the left bar
-  call dein#add('mhinz/vim-signify') " {
+  Plug 'mhinz/vim-signify' " {
     let g:signify_update_on_bufenter=0
   " }
 
   " snippets and auto-completion
-  call dein#add('honza/vim-snippets')
-  call dein#add('Shougo/neosnippet-snippets')
-  call dein#add('Shougo/neosnippet.vim') " {
+  Plug 'honza/vim-snippets'
+  Plug 'Shougo/neosnippet-snippets'
+  Plug 'Shougo/neosnippet.vim' " {
     let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
     let g:neosnippet#enable_snipmate_compatibility=1
   " }
-  call dein#add('Shougo/deoplete.nvim') " {
+  Plug 'Shougo/deoplete.nvim' " {
     if !has('nvim')
-      call dein#add('roxma/nvim-yarp')
-      call dein#add('roxma/vim-hug-neovim-rpc')
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
     endif
     let g:deoplete#enable_at_startup = 1
     " do not show the typed word in the completion menu for around completion
-    call deoplete#custom#source('around', 'matchers', ['matcher_fuzzy', 'matcher_length'])
+    " call deoplete#custom#source('around', 'matchers', ['matcher_fuzzy', 'matcher_length'])
   " }
 
   " language client for multilanguage autocompletion
-  call dein#add('autozimu/LanguageClient-neovim', {
-    \ 'rev': 'next',
-    \ 'build': 'bash install.sh',
-    \ })
+  Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
   " for python server: pip install python-language-server
   let g:LanguageClient_serverCommands = {
@@ -359,26 +325,20 @@
     imap <expr> <Tab> CleverTab()
   " }
 
-  " speed up folds.
-  call dein#add('Konfekt/FastFold') " {
-    let g:fastfold_savehook = 1
-    let g:fastfold_fold_command_suffixes = []
-  " }
-
   " eases sharing and following editor configuration conventions
-  call dein#add('editorconfig/editorconfig-vim', {'on_event':['BufNewFile', 'BufReadPost', 'BufFilePost']})
+  Plug 'editorconfig/editorconfig-vim' ", {'on_event':['BufNewFile', 'BufReadPost', 'BufFilePost']}
 
   " auto closes braces and such
-  call dein#add('jiangmiao/auto-pairs')
+  Plug 'jiangmiao/auto-pairs'
 
   " show the undo tree in an easier to use form
-  call dein#add('mbbill/undotree', {'on_cmd':'UndotreeToggle'}) " {
+  Plug 'mbbill/undotree', {'on':'UndotreeToggle'} " {
     let g:undotree_SetFocusWhenToggle=1
     nnoremap <silent> <leader>uu :UndotreeToggle<CR>
   " }
 
   " file browser
-  call dein#add('scrooloose/nerdtree', {'on_cmd':['NERDTreeToggle','NERDTreeFind']}) " {
+  Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} " {
     let NERDTreeShowHidden=1
     let NERDTreeQuitOnOpen=0
     let NERDTreeShowLineNumbers=1
@@ -390,12 +350,12 @@
   " }
 
   " functions and symbols bar
-  call dein#add('majutsushi/tagbar', {'on_cmd':'TagbarToggle'}) " {
+  Plug 'majutsushi/tagbar', {'on':'TagbarToggle'} " {
     nnoremap <silent> <leader>tt :TagbarToggle<CR>
   " }
 
   " show indent levels
-  call dein#add('nathanaelkane/vim-indent-guides') " {
+  Plug 'nathanaelkane/vim-indent-guides' " {
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
     let g:indent_guides_enable_on_vim_startup = 1
@@ -405,7 +365,7 @@
   " }
 
   " syntax checks for various file types
-  call dein#add('scrooloose/syntastic') " {
+  Plug 'scrooloose/syntastic' " {
     let g:syntastic_error_symbol = '✗'
     let g:syntastic_style_error_symbol = '✠'
     let g:syntastic_warning_symbol = '∆'
@@ -415,8 +375,12 @@
   " }
 
   " xml tag closing
-  call dein#add('sukima/xmledit')
+  Plug 'sukima/xmledit'
+
+  " finish loading {
+  call plug#end()
 " }
+
 
 " General Key (re)Mappings {
   " screen line scroll
@@ -431,18 +395,12 @@
   nnoremap Y y$
 " }
 
-" finish loading {
-  call dein#end()
-  if dein#check_install()
-    call dein#install()
-  endif
-  autocmd VimEnter * call dein#call_hook('post_source')
-
   " enable auto indent and colorized syntax
   filetype plugin indent on
   syntax enable
-  color solarized
+  set termguicolors
+  " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  color NeoSolarized
   set background=dark
-  " enable italics in terminal
-  highlight Comment cterm=italic
 " }
