@@ -8,4 +8,4 @@ if [[ $1 == 1 ]]; then
     $homeshick link cfg-vim
 fi
 
-vim "+PlugUpgrade" "+PlugUpdate" "+q"
+vim "+PlugUpgrade" "+PlugUpdate" '+qa!'

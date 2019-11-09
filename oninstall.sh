@@ -5,8 +5,10 @@ wget -O ~/.vim/autoload/plug.vim -- https://raw.githubusercontent.com/junegunn/v
 # neovim compatibility
 mkdir -p ~/.local/share/nvim/site/autoload/
 ln -s ~/.vim/autoload/plug.vim ~/.local/share/nvim/site/autoload/plug.vim
+mkdir -p ~/.config/nvim/
+ln -s ~/.vimrc ~/.config/nvim/init.vim
 homeshick link cfg-vim
-vim "+PlugInstall" "+q!"
+vim "+PlugInstall" '+qa!'
 
 # install statusline fonts
 # $(dirname $0)/oninstall/powerlinefonts.sh
