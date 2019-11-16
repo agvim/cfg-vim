@@ -28,7 +28,7 @@
 
   function! EnsureExists(path) " {
     if !isdirectory(expand(a:path))
-      call mkdir(expand(a:path))
+      call mkdir(expand(a:path), "p")
     endif
   endfunction " }
 
@@ -48,7 +48,7 @@
   endif
 
   " vim file/folder management {
-    let s:cache_dir = '~/.cache/vim'
+    let s:cache_dir = '/tmp/$USER/vimcache'
 
     " persistent undo
     if exists('+undofile')
@@ -56,17 +56,12 @@
       let &undodir = s:get_cache_dir('undo')
     endif
 
-    " backups
-    set backup
-    let &backupdir = s:get_cache_dir('backup')
-
     " swap files
     let &directory = s:get_cache_dir('swap')
     " set noswapfile
 
     call EnsureExists(s:cache_dir)
     call EnsureExists(&undodir)
-    call EnsureExists(&backupdir)
     call EnsureExists(&directory)
   " }
 
@@ -197,7 +192,9 @@
   call plug#begin('~/.vim/plugged')
 
   " solarized color scheme
-  Plug 'iCyMind/NeoSolarized'
+  Plug 'iCyMind/NeoSolarized' " {
+    let g:neosolarized_italic = 1
+  " }
 
   " to use % to go to matching opening/closing tag/char
   Plug 'vim-scripts/matchit.zip'
@@ -234,95 +231,143 @@
     let g:signify_update_on_bufenter=0
   " }
 
-  " snippets and auto-completion
-  Plug 'honza/vim-snippets'
-  Plug 'Shougo/neosnippet-snippets'
-  Plug 'Shougo/neosnippet.vim' " {
-    let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
-    let g:neosnippet#enable_snipmate_compatibility=1
-  " }
-  Plug 'Shougo/deoplete.nvim' " {
-    if !has('nvim')
-      Plug 'roxma/nvim-yarp'
-      Plug 'roxma/vim-hug-neovim-rpc'
-    endif
-    let g:deoplete#enable_at_startup = 1
-    " do not show the typed word in the completion menu for around completion
-    " call deoplete#custom#source('around', 'matchers', ['matcher_fuzzy', 'matcher_length'])
-  " }
+  " snippets and auto-completion (TODO: tune default configuration) " {
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-  " language client for multilanguage autocompletion
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+    " if hidden is not set, TextEdit might fail.
+    set hidden
 
-  " for python server: pip install python-language-server
-  let g:LanguageClient_serverCommands = {
-    \ 'python': ['pyls'],
-    \ }
+    " Some servers have issues with backup files, see #649
+    set nobackup
+    set nowritebackup
 
-  nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+    " " Better display for messages
+    " set cmdheight=2
 
-  " set tab selects next autocompletion item and ctrl+k uses a selected
-  " snippet {
-    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-    smap <C-k> <Plug>(neosnippet_expand_or_jump)
-    imap <silent><expr><C-k> neosnippet#expandable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-      \ "\<C-e>" : "\<Plug>(neosnippet_expand_or_jump)")
-    smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
-    inoremap <expr><C-g> deoplete#undo_completion()
-    inoremap <expr><C-l> deoplete#complete_common_string()
-    "inoremap <expr><CR> neocomplete#complete_common_string()
+    " You will have bad experience for diagnostic messages when it's default 4000.
+    set updatetime=300
 
-    " <CR>: close popup
-    " <s-CR>: close popup and save indent.
-    inoremap <expr><s-CR> pumvisible() ? deoplete#smart_close_popup()."\<CR>" : "\<CR>"
+    " don't give |ins-completion-menu| messages.
+    set shortmess+=c
 
-    function! CleverCr()
-      if pumvisible()
-        if neosnippet#expandable()
-          let exp = "\<Plug>(neosnippet_expand)"
-          return exp . deoplete#smart_close_popup()
-        else
-          return deoplete#smart_close_popup()
-        endif
+    " always show signcolumns
+    set signcolumn=yes
+    " Use tab for trigger completion with characters ahead and navigate.
+    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+    inoremap <silent><expr> <TAB>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    " Use <c-space> to trigger completion.
+    inoremap <silent><expr> <c-space> coc#refresh()
+
+    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+    " Coc only does snippet and additional edit on confirm.
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    " Or use `complete_info` if your vim support it, like:
+    " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+    " Use `[g` and `]g` to navigate diagnostics
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Use K to show documentation in preview window
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    function! s:show_documentation()
+      if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
       else
-        return "\<CR>"
+        call CocAction('doHover')
       endif
     endfunction
 
-    " <CR> close popup and save indent or expand snippet
-    imap <expr> <CR> CleverCr()
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y> deoplete#smart_close_popup()
-    " <TAB>: completion.
-    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+    " Highlight symbol under cursor on CursorHold
+    autocmd CursorHold * silent call CocActionAsync('highlight')
 
-    " Courtesy of Matteo Cavalleri
-    function! CleverTab()
-      if pumvisible()
-        return "\<C-n>"
-      endif
-      let substr = strpart(getline('.'), 0, col('.') - 1)
-      let substr = matchstr(substr, '[^ \t]*$')
-      if strlen(substr) == 0
-        " nothing to match on empty string
-        return "\<Tab>"
-      else
-        " existing text matching
-        if neosnippet#expandable_or_jumpable()
-          return "\<Plug>(neosnippet_expand_or_jump)"
-        else
-          return deoplete#manual_complete()
-        endif
-      endif
-    endfunction
+    " Remap for rename current word
+    nmap <leader>rn <Plug>(coc-rename)
 
-    imap <expr> <Tab> CleverTab()
+    " Remap for format selected region
+    xmap <leader>f  <Plug>(coc-format-selected)
+    nmap <leader>f  <Plug>(coc-format-selected)
+
+    augroup mygroup
+      autocmd!
+      " Setup formatexpr specified filetype(s).
+      autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+      " Update signature help on jump placeholder
+      autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup end
+
+    " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+    xmap <leader>a  <Plug>(coc-codeaction-selected)
+    nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+    " Remap for do codeAction of current line
+    nmap <leader>ac  <Plug>(coc-codeaction)
+    " Fix autofix problem of current line
+    nmap <leader>qf  <Plug>(coc-fix-current)
+
+    " Create mappings for function text object, requires document symbols feature of languageserver.
+    xmap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap if <Plug>(coc-funcobj-i)
+    omap af <Plug>(coc-funcobj-a)
+
+    " Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+    nmap <silent> <C-d> <Plug>(coc-range-select)
+    xmap <silent> <C-d> <Plug>(coc-range-select)
+
+    " Use `:Format` to format current buffer
+    command! -nargs=0 Format :call CocAction('format')
+
+    " Use `:Fold` to fold current buffer
+    command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+    " use `:OR` for organize import of current buffer
+    command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+    " Add status line support, for integration with other plugin, checkout `:h coc-status`
+    set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+    " Using CocList
+    " Show all diagnostics
+    nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+    " Manage extensions
+    nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+    " Show commands
+    nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+    " Find symbol of current document
+    nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+    " Search workspace symbols
+    nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+    " Do default action for next item.
+    nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+    " Do default action for previous item.
+    nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+    " Resume latest coc list
+    nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+    " generig coc extensions
+    Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
+
+    " language specific coc extensions
+    Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
   " }
 
   " eases sharing and following editor configuration conventions
@@ -362,16 +407,6 @@
     let g:indent_guides_auto_colors = 0
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#586e75 ctermbg=240
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#839496 ctermbg=244
-  " }
-
-  " syntax checks for various file types
-  Plug 'scrooloose/syntastic' " {
-    let g:syntastic_error_symbol = '✗'
-    let g:syntastic_style_error_symbol = '✠'
-    let g:syntastic_warning_symbol = '∆'
-    let g:syntastic_style_warning_symbol = '≈'
-    " do not run syntastic checks when quitting
-    let g:syntastic_check_on_wq = 0
   " }
 
   " xml tag closing
