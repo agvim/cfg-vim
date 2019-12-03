@@ -438,4 +438,6 @@
   " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   color NeoSolarized
   set background=dark
+  " change the terminal title to reflect the filename
+  set title
 " }
