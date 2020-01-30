@@ -363,7 +363,10 @@
     nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
     " generig coc extensions
-    Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'} "{
+      " use with snippets
+      Plug 'honza/vim-snippets'
+    " }
     Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
 
     " language specific coc extensions
