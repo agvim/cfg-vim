@@ -84,6 +84,9 @@
     \ endif
 " }
 
+" TODO XXX make a command
+" redir => m | silent registers | redir END | put=m
+
 " Main stuff {
   " use comma as the leader key
   let mapleader = ','
@@ -180,7 +183,7 @@
       let opt = opt . "-i "
     endif
     if &diffopt =~ "iwhite"
-      let opt = opt . "-w -B "
+      let opt = opt . "-w -B --strip-trailing-cr "
     endif
     silent execute "!diff -a --binary " . opt . v:fname_in . " " . v:fname_new .
                 \  " > " . v:fname_out
@@ -231,8 +234,10 @@
     let g:signify_update_on_bufenter=0
   " }
 
-  " snippets and auto-completion (TODO: tune default configuration) " {
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " snippets and auto-completion (TODO: tune default configuration)
+  Plug 'neoclide/coc.nvim', {'branch': 'release'} " {
+    " disable warnings when using old vim
+    let g:coc_disable_startup_warning = 1
 
     " if hidden is not set, TextEdit might fail.
     set hidden
@@ -371,6 +376,7 @@
 
     " language specific coc extensions
     Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'fannheyward/coc-texlab', {'do': 'yarn install --frozen-lockfile'}
   " }
 
   " eases sharing and following editor configuration conventions
