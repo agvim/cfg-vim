@@ -108,7 +108,9 @@
   set sts=4
   set sw=4
   " line numbers
+  if !exists('g:vscode')
   set number
+  endif
 
   " Force md and markdeep files to be recognized as markdown instead of modula or html files
   au BufRead,BufNewFile *.md,*.md.html set filetype=markdown
@@ -194,6 +196,7 @@
   Plug 'vim-scripts/matchit.zip'
 
   " fancy statusline
+  if !exists('g:vscode')
   Plug 'vim-airline/vim-airline-themes'
   Plug 'vim-airline/vim-airline' " {
     " do not show default mode
@@ -216,16 +219,26 @@
     nmap <leader>8 <Plug>AirlineSelectTab8
     nmap <leader>9 <Plug>AirlineSelectTab9
   " }
+  endif
 
   " surround a selected block of text
   Plug 'tpope/vim-surround'
 
   " show changed lines in the left bar
+  if !exists('g:vscode')
   Plug 'mhinz/vim-signify' " {
     " let g:signify_update_on_bufenter=0
   " }
+  endif
+
+  " " webapi and emmet for simpler xml editing
+  " if !exists('g:vscode')
+  " Plug 'mattn/webapi-vim'
+  " Plug 'mattn/emmet-vim'
+  " endif
 
   " snippets and auto-completion (TODO: tune default configuration)
+  if !exists('g:vscode')
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " {
     " disable warnings when using old vim
     let g:coc_disable_startup_warning = 1
@@ -402,38 +415,48 @@
     " language specific coc extensions
     Plug 'fannheyward/coc-pyright', {'do': 'yarn install --frozen-lockfile'}
     Plug 'fannheyward/coc-texlab', {'do': 'yarn install --frozen-lockfile'}
+    " link emmet with autocompletion.
+    " TODO XXX FIXME: removed as it does not currently integrate custom snippets
+    " Plug 'neoclide/coc-emmet', {'do': 'yarn install --frozen-lockfile'}
   " }
+  endif
 
   " eases sharing and following editor configuration conventions
   Plug 'editorconfig/editorconfig-vim' ", {'on_event':['BufNewFile', 'BufReadPost', 'BufFilePost']}
 
   " auto closes braces and such
-  Plug 'jiangmiao/auto-pairs'
+  Plug 'jiangmiao/auto-pairs' " {
+  let g:AutoPairsMapCR = 0
+  " }
 
   " show the undo tree in an easier to use form
+  if !exists('g:vscode')
   Plug 'mbbill/undotree', {'on':'UndotreeToggle'} " {
     let g:undotree_SetFocusWhenToggle=1
     nnoremap <silent> <leader>uu :UndotreeToggle<CR>
   " }
+  endif
 
   " file browser
+  if !exists('g:vscode')
+  " Plug 'ryanoasis/vim-devicons'
   Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} " {
-    let NERDTreeShowHidden=1
-    let NERDTreeQuitOnOpen=0
-    let NERDTreeShowLineNumbers=1
-    let NERDTreeChDirMode=0
-    let NERDTreeShowBookmarks=1
+    let g:NERDTreeShowHidden=1
+    let g:NERDTreeMinimalUI = 1
     let NERDTreeIgnore=['\.git','\.hg']
-    let NERDTreeBookmarksFile=s:get_cache_dir('NERDTreeBookmarks')
     nnoremap <silent> <leader>ee :NERDTreeToggle<CR>
   " }
+  endif
 
   " functions and symbols bar
+  if !exists('g:vscode')
   Plug 'majutsushi/tagbar', {'on':'TagbarToggle'} " {
     nnoremap <silent> <leader>tt :TagbarToggle<CR>
   " }
+  endif
 
   " show indent levels
+  if !exists('g:vscode')
   Plug 'nathanaelkane/vim-indent-guides' " {
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
@@ -442,6 +465,7 @@
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#586e75 ctermbg=240
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#839496 ctermbg=244
   " }
+  endif
 
   " xml tag closing
   Plug 'sukima/xmledit'
@@ -449,6 +473,13 @@
   " finish loading {
   call plug#end()
 " }
+
+  " if !exists('g:vscode')
+  " " load custom emmet snippets for emmet-vim ('mattn/emmet-vim')
+  " " TODO FIXME: the substitution works if there is no snippet with //
+  " let emmet_without_comments = substitute(join(readfile(expand('~/emmet1snippets.json')), "\n"), '//[^\r\n]*', '', 'g')
+  " let g:user_emmet_settings = webapi#json#decode(emmet_without_comments)
+  " endif
 
 
 " General Key (re)Mappings {
