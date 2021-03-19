@@ -441,7 +441,7 @@
   if !exists('g:vscode')
   " Plug 'ryanoasis/vim-devicons'
   Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} " {
-    let g:NERDTreeShowHidden=1
+    " let g:NERDTreeShowHidden = 1
     let g:NERDTreeMinimalUI = 1
     let NERDTreeIgnore=['\.git','\.hg']
     nnoremap <silent> <leader>ee :NERDTreeToggle<CR>
@@ -467,9 +467,13 @@
   " }
   endif
 
-  " xml tag closing
+  " xml tag closing, in vscode use auto close tag and auto rename tag
+  if !exists('g:vscode')
   Plug 'sukima/xmledit'
-
+  endif
+  if !exists('g:vscode')
+  Plug 'ryanoasis/vim-devicons'
+  endif
   " finish loading {
   call plug#end()
 " }
