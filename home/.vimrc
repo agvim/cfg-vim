@@ -410,7 +410,6 @@
       " use with snippets
       Plug 'honza/vim-snippets'
     " }
-    Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
 
     " language specific coc extensions
     Plug 'fannheyward/coc-pyright', {'do': 'yarn install --frozen-lockfile'}
@@ -419,6 +418,18 @@
     " TODO XXX FIXME: removed as it does not currently integrate custom snippets
     " Plug 'neoclide/coc-emmet', {'do': 'yarn install --frozen-lockfile'}
   " }
+  endif
+
+  " highlight word under cursor
+  if !exists('g:vscode')
+  Plug 'dominikduda/vim_current_word'
+  endif
+
+  " highlight colors
+  if has('nvim')
+  if !exists('g:vscode')
+  Plug 'norcalli/nvim-colorizer.lua'
+  endif
   endif
 
   " eases sharing and following editor configuration conventions
@@ -506,7 +517,21 @@
   " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   color NeoSolarized
-  set background=dark
+  " background is autodetected by vim
+  " set background=dark
+
+  " enable colorizer for all file types
+  if has('nvim')
+  if !exists('g:vscode')
+  lua require'colorizer'.setup()
+  endif
+  endif
+  " highlight current word and copies using the same color as vscode
+  " {
+    hi CurrentWord guibg=#054150
+    hi CurrentWordTwins guibg=#054150
+  " }
+
   " change the terminal title to reflect the filename
   set title
 " }
