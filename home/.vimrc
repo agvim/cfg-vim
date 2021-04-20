@@ -237,6 +237,11 @@
   " Plug 'mattn/emmet-vim'
   " endif
 
+  if !exists('g:vscode') && has('nvim')
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+  " Installed modules
+  " :TSInstall python
+  endif
   " snippets and auto-completion (TODO: tune default configuration)
   if !exists('g:vscode')
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " {
@@ -426,10 +431,8 @@
   endif
 
   " highlight colors
-  if has('nvim')
-  if !exists('g:vscode')
+  if has('nvim') && !exists('g:vscode')
   Plug 'norcalli/nvim-colorizer.lua'
-  endif
   endif
 
   " eases sharing and following editor configuration conventions
@@ -521,10 +524,8 @@
   " set background=dark
 
   " enable colorizer for all file types
-  if has('nvim')
-  if !exists('g:vscode')
+  if has('nvim') && !exists('g:vscode')
   lua require'colorizer'.setup()
-  endif
   endif
   " highlight current word and copies using the same color as vscode
   " {
@@ -532,6 +533,23 @@
     hi CurrentWordTwins guibg=#054150
   " }
 
-  " change the terminal title to reflect the filename
+
+  " Treesitter stuff
+  if has('nvim') && !exists('g:vscode')
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
+}
+EOF
+  set foldmethod=expr
+  set foldexpr=nvim_treesitter#foldexpr()
+  endif
+
+" change the terminal title to reflect the filename
   set title
 " }
