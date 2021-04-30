@@ -184,7 +184,7 @@
 " }
 
 " plugins  config {
-  " plugins are managed with vim-plug {
+  " plugins are managed with vim-plug
   call plug#begin('~/.vim/plugged')
 
   " solarized color scheme
@@ -471,6 +471,12 @@
 
   " show indent levels
   if !exists('g:vscode')
+  if has('nvim')
+  Plug 'lukas-reineke/indent-blankline.nvim'
+  Plug 'Yggdroot/indentLine'
+    " let g:indentLine_defaultGroup = 'SpecialKey'
+    let g:indentLine_char = '|'
+  else
   Plug 'nathanaelkane/vim-indent-guides' " {
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
@@ -480,6 +486,7 @@
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#839496 ctermbg=244
   " }
   endif
+  endif
 
   " xml tag closing, in vscode use auto close tag and auto rename tag
   if !exists('g:vscode')
@@ -488,7 +495,7 @@
   if !exists('g:vscode')
   Plug 'ryanoasis/vim-devicons'
   endif
-  " finish loading {
+  " finish loading
   call plug#end()
 " }
 
@@ -513,6 +520,7 @@
   nnoremap Y y$
 " }
 
+" display stuff {
   " enable auto indent and colorized syntax
   filetype plugin indent on
   syntax enable
@@ -552,4 +560,9 @@ EOF
 
 " change the terminal title to reflect the filename
   set title
+
+  " vim background redraw bugfix
+  if !has('nvim')
+    let &t_ut=''
+  endif
 " }
