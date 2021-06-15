@@ -205,6 +205,8 @@
     let g:airline#extensions#tabline#enabled = 1
     " Do not use the hunks (+0 ~0 -0 stuff in the branch indicator)
     let g:airline#extensions#hunks#enabled = 0
+    " disable the ascii scrollbar
+    let g:airline#extensions#scrollbar#enabled = 0
     " use powerline fonts
     let g:airline_powerline_fonts = 1
     " switch tabs with leader + number
