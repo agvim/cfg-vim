@@ -1,4 +1,4 @@
 {
-    // use pyls language server instead of jedi
-    "python.jediEnabled": false
+    // set python to python3
+    "python.pythonPath": "python3"
 }

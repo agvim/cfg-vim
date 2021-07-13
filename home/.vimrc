@@ -475,9 +475,12 @@
   if !exists('g:vscode')
   if has('nvim')
   Plug 'lukas-reineke/indent-blankline.nvim'
-  Plug 'Yggdroot/indentLine'
+    let g:indent_blankline_show_first_indent_level = v:false
+    " let g:indent_blankline_char = '|'
+    let g:indent_blankline_use_treesitter = v:true
+    let g:indent_blankline_show_current_context = v:true
+  " Plug 'Yggdroot/indentLine'
     " let g:indentLine_defaultGroup = 'SpecialKey'
-    let g:indentLine_char = '|'
   else
   Plug 'nathanaelkane/vim-indent-guides' " {
     let g:indent_guides_start_level = 2
