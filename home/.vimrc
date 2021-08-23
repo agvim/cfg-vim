@@ -34,7 +34,7 @@
 
   " grep with ag
   if executable('ag')
-    set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+    set grepprg=rg\ --vimgrep\ --smart-case\ --hidden
     set grepformat=%f:%l:%c:%m
   endif
 
@@ -424,7 +424,8 @@
     " link emmet with autocompletion.
     " TODO XXX FIXME: removed as it does not currently integrate custom snippets
     " Plug 'neoclide/coc-emmet', {'do': 'yarn install --frozen-lockfile'}
-  " }
+    Plug 'fannheyward/coc-rust-analyzer', {'do': 'yarn install --frozen-lockfile'}
+    " }
   endif
 
   " highlight word under cursor
