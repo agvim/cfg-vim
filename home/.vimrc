@@ -32,8 +32,8 @@
     endif
   endfunction " }
 
-  " grep with ag
-  if executable('ag')
+  " grep with ripgrep
+  if executable('rg')
     set grepprg=rg\ --vimgrep\ --smart-case\ --hidden
     set grepformat=%f:%l:%c:%m
   endif
@@ -63,11 +63,6 @@
     " fold xml based on syntax
     let g:xml_syntax_folding=1
   " }
-
-  " no menu items
-  set guioptions+=t
-  " no toolbar icons
-  set guioptions-=T
 
   autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -151,10 +146,20 @@
   " enable vim spellchecker
   set spell
 
-  if has('gui_running')
-    " Use Fira code font in gvim. In vim is the term font
-    set guifont=Fira\ Code\ 11
-  endif
+  " Use Fira code font in gui vim and fall back to the symbols font.
+  " In vim is the term font
+  set guifont=Fira\ Code,Symbols\ Nerd\ Font:h14
+
+  " set some neovide gui options
+  let neovide_remember_window_size = v:true
+  let g:neovide_cursor_animation_length=0.02
+  let g:neovide_cursor_trail_length=0
+
+  " gvim options
+  " no menu items
+  set guioptions+=t
+  " no toolbar icons
+  set guioptions-=T
 " }
 
 " Diffing {
@@ -467,8 +472,9 @@
 
   " functions and symbols bar
   if !exists('g:vscode')
-  Plug 'majutsushi/tagbar', {'on':'TagbarToggle'} " {
-    nnoremap <silent> <leader>tt :TagbarToggle<CR>
+  Plug 'liuchengxu/vista.vim' " {
+    let g:vista#renderer#enable_icon = 1
+    nnoremap <silent> <leader>tt :Vista!!<CR>
   " }
   endif
 
