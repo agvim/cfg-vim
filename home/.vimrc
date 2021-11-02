@@ -148,7 +148,7 @@
 
   " Use Fira code font in gui vim and fall back to the symbols font.
   " In vim is the term font
-  set guifont=Fira\ Code,Symbols\ Nerd\ Font:h14
+  set guifont=Fira\ Code,JetBrains\ Mono,Symbols\ Nerd\ Font:h11
 
   " set some neovide gui options
   let neovide_remember_window_size = v:true
@@ -244,11 +244,6 @@
   " Plug 'mattn/emmet-vim'
   " endif
 
-  if !exists('g:vscode') && has('nvim')
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-  " Installed modules
-  " :TSInstall python
-  endif
   " snippets and auto-completion (TODO: tune default configuration)
   if !exists('g:vscode')
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " {
@@ -274,7 +269,7 @@
 
     " Always show the signcolumn, otherwise it would shift the text each time
     " diagnostics appear/become resolved.
-    if has("patch-8.1.1564")
+    if has("nvim-0.5.0") || has("patch-8.1.1564")
       " Recently vim can merge signcolumn and number column into one
       set signcolumn=number
     else
@@ -438,11 +433,6 @@
   Plug 'dominikduda/vim_current_word'
   endif
 
-  " highlight colors
-  if has('nvim') && !exists('g:vscode')
-  Plug 'norcalli/nvim-colorizer.lua'
-  endif
-
   " eases sharing and following editor configuration conventions
   Plug 'editorconfig/editorconfig-vim' ", {'on_event':['BufNewFile', 'BufReadPost', 'BufFilePost']}
 
@@ -480,15 +470,6 @@
 
   " show indent levels
   if !exists('g:vscode')
-  if has('nvim')
-  Plug 'lukas-reineke/indent-blankline.nvim'
-    let g:indent_blankline_show_first_indent_level = v:false
-    " let g:indent_blankline_char = '|'
-    let g:indent_blankline_use_treesitter = v:true
-    let g:indent_blankline_show_current_context = v:true
-  " Plug 'Yggdroot/indentLine'
-    " let g:indentLine_defaultGroup = 'SpecialKey'
-  else
   Plug 'nathanaelkane/vim-indent-guides' " {
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
@@ -497,7 +478,6 @@
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#586e75 ctermbg=240
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#839496 ctermbg=244
   " }
-  endif
   endif
 
   " xml tag closing, in vscode use auto close tag and auto rename tag
@@ -553,28 +533,9 @@
     hi CurrentWordTwins guibg=#054150
   " }
 
-
-  " Treesitter stuff
-  if has('nvim') && !exists('g:vscode')
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-  },
-  indent = {
-    enable = true,
-  },
-}
-EOF
-  set foldmethod=expr
-  set foldexpr=nvim_treesitter#foldexpr()
-  endif
-
 " change the terminal title to reflect the filename
   set title
 
   " vim background redraw bugfix
-  if !has('nvim')
-    let &t_ut=''
-  endif
+  let &t_ut=''
 " }
